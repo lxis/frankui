@@ -42,14 +42,7 @@ public class CustomScrollView extends ScrollView {
     // 手势按下时是否在图区范围
     private boolean isDownOnMap = false;
 
-    // blank点击区域的offset修正，这是个trick，没事儿别用
-    public int offsetTrick = 0;
-
-    public static final Object TAG = new Object();
-
     private PageScrollStatus mStatus = PageScrollStatus.BOTTOM;
-
-    private boolean touchable = true;
 
     public CustomScrollView(Context context) {
         this(context, null);
@@ -66,7 +59,6 @@ public class CustomScrollView extends ScrollView {
     }
 
     public void initView(Context context) {
-        setTag(TAG);
         setOverScrollMode(View.OVER_SCROLL_NEVER);
         bottom = 0;
 
@@ -103,7 +95,7 @@ public class CustomScrollView extends ScrollView {
             canMoveMap = canMoveMap(ev, blankLayout);
         }
 
-        if ((canMoveMap && (mStatus == PageScrollStatus.BOTTOM)) || !touchable) {
+        if ((canMoveMap && (mStatus == PageScrollStatus.BOTTOM))) {
             return false;
         } else {
             acquireVelocityTracker(ev);
@@ -203,7 +195,7 @@ public class CustomScrollView extends ScrollView {
     private boolean isPointInsideView(float y, View view) {
         Rect rect = new Rect();
         view.getHitRect(rect);
-        return y > rect.top && y < (rect.bottom - getScrollY() + offsetTrick);
+        return y > rect.top && y < (rect.bottom - getScrollY());
     }
 
     /**
