@@ -54,9 +54,7 @@ public class CustomScrollView extends ScrollView {
     }
 
     public void initView(Context context) {
-        setOverScrollMode(View.OVER_SCROLL_NEVER);
         bottom = 0;
-
         LayoutInflater.from(context).inflate(R.layout.custom_scroll_view, this);
         blankLayout = findViewById(R.id.ll_blank);
         contentLayout = findViewById(R.id.ll_content);
@@ -67,9 +65,7 @@ public class CustomScrollView extends ScrollView {
         this.top = top;
         this.bottom = bottom;
 
-        setFadingEdgeLength(0);
         setVerticalScrollBarEnabled(false);
-        contentLayout.setMinimumHeight(top);
     }
 
     public void setBlankHeight(int height) {
