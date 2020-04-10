@@ -14,14 +14,18 @@ import com.frankui.frankui.R;
 
 public class StatusSwitchScrollViewHelper {
 
-    public static void addStatusSwitch(final ExtendScrollView scrollView, final Value params) {
-        scrollView.getExtendHelper().addValue("statusSwitch", params);
-        scrollView.getExtendHelper().addCallback("statusSwitch", new ExtendHelper.Callback() {
+    public static void addStatusSwitch(final ExtendScrollView view, final Value value) {
+        if (view == null || value == null) {
+            return;
+        }
+        String key = "statusSwitch";
+        view.getExtendHelper().addValue(key, value);
+        view.getExtendHelper().addCallback(key, new ExtendHelper.Callback() {
             @Override
             public boolean onTouchEvent(MotionEvent ev) {
                 if (ev.getAction() == MotionEvent.ACTION_UP) {
-                    PageScrollStatus status = calculateNextStatus(scrollView.getScrollY());
-                    params.mStatus = status;
+                    PageScrollStatus status = calculateNextStatus(view.getScrollY());
+                    value.mStatus = status;
                     if (status != PageScrollStatus.NULL) {
                         updateStatus(status, true);
                         return true;
@@ -32,36 +36,38 @@ public class StatusSwitchScrollViewHelper {
 
             @Override
             public void initView() {
-                LayoutInflater.from(scrollView.getContext()).inflate(R.layout.custom_scroll_view, scrollView);
-                params.mContentLayout = scrollView.findViewById(R.id.ll_content);
-                params.mBlankLayout = scrollView.findViewById(R.id.ll_blank);
-                scrollView.setVerticalScrollBarEnabled(false); // 隐藏右侧的ScrollBar
+                LayoutInflater.from(view.getContext()).inflate(R.layout.custom_scroll_view, view);
+                value.mContentLayout = view.findViewById(R.id.ll_content);
+                value.mBlankLayout = view.findViewById(R.id.ll_blank);
+                view.setVerticalScrollBarEnabled(false); // 隐藏右侧的ScrollBar
                 updateBlankHeight();
-
-
-                ViewGroup.LayoutParams layoutParams = params.mInner.getLayoutParams();
-                if (layoutParams != null) {
-                    layoutParams.height = params.mContentHeight;
-                }
-                params.mInner.requestLayout();
-
-                params.mContentLayout = scrollView.findViewById(R.id.ll_content);
-
-                params.mContentLayout.addView(params.mInner);
-
-
+                updateContentHeight();
+                value.mContentLayout = view.findViewById(R.id.ll_content);
+                value.mContentLayout.addView(value.mInner);
             }
 
-            private void updateBlankHeight() {
-                if (params.mBlankLayout == null) {
+            private void updateContentHeight() {
+                if (value.mInner == null) {
                     return;
                 }
-                ViewGroup.LayoutParams layoutParams = params.mBlankLayout.getLayoutParams();
+                ViewGroup.LayoutParams layoutParams = value.mInner.getLayoutParams();
                 if (layoutParams == null) {
                     return;
                 }
-                layoutParams.height = params.mBlankHeight;
-                params.mBlankLayout.requestLayout();
+                layoutParams.height = value.mContentHeight;
+                value.mInner.requestLayout();
+            }
+
+            private void updateBlankHeight() {
+                if (value.mBlankLayout == null) {
+                    return;
+                }
+                ViewGroup.LayoutParams layoutParams = value.mBlankLayout.getLayoutParams();
+                if (layoutParams == null) {
+                    return;
+                }
+                layoutParams.height = value.mBlankHeight;
+                value.mBlankLayout.requestLayout();
             }
 
             /**
@@ -71,20 +77,20 @@ public class StatusSwitchScrollViewHelper {
              * @param smooth
              */
             private void updateStatus(PageScrollStatus status, boolean smooth) {
-                params.mStatus = status;
+                value.mStatus = status;
                 switch (status) {
                     case BOTTOM:
                         if (smooth) {
-                            scrollView.smoothScrollTo(0, params.mBottom);
+                            view.smoothScrollTo(0, value.mBottom);
                         } else {
-                            scrollView.scrollTo(0, params.mBottom);
+                            view.scrollTo(0, value.mBottom);
                         }
                         break;
                     case TOP:
                         if (smooth) {
-                            scrollView.smoothScrollTo(0, params.mTop);
+                            view.smoothScrollTo(0, value.mTop);
                         } else {
-                            scrollView.scrollTo(0, params.mTop);
+                            view.scrollTo(0, value.mTop);
                         }
                         break;
                     default:
@@ -102,7 +108,7 @@ public class StatusSwitchScrollViewHelper {
 
 
             private int getMid() {
-                return (params.mTop + params.mBottom) / 2;
+                return (value.mTop + value.mBottom) / 2;
             }
         });
     }
@@ -118,8 +124,11 @@ public class StatusSwitchScrollViewHelper {
         public FrameLayout mBlankLayout;
         // 当前状态
         public PageScrollStatus mStatus = PageScrollStatus.BOTTOM;
+        // 内部内容
         public View mInner;
+        // 顶部插入空白高度
         public int mBlankHeight;
+        // 内容高度
         public int mContentHeight;
     }
 }
