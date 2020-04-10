@@ -26,15 +26,13 @@ public class CustomScrollView extends ScrollView {
     private VelocityTracker mVelocityTracker;
     private int mMaxVelocity;
 
-    private static final int ONE_LEVEL_VEL = 1000;
-    private static final int TWO_LEVEL_VEL = 3000;
+    private static final int TWO_LEVEL_VEL = 1000;
 
     private static final int VELOCTITY = 1000;
 
     // 三种状态scrollto的位置
     public int bottom;
     public int top;
-    private boolean isTwoStatus = true;
 
     private OnScrollChangeListener mListener;
     private OnScrollChangeListener mCustomListener;
@@ -108,20 +106,6 @@ public class CustomScrollView extends ScrollView {
         contentLayout.addView(view);
     }
 
-    public void addContentView(View view, int flag) {
-        this.setFillViewport(true);
-        LayoutParams params =
-                new LayoutParams(LayoutParams.MATCH_PARENT,
-                        LayoutParams.MATCH_PARENT);
-        contentLayout.addView(view, params);
-    }
-
-    public void removeContentView(View view) {
-        if (contentLayout != null) {
-            contentLayout.removeView(view);
-        }
-    }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (continueScrollListener != null && innerView != null) {
@@ -186,8 +170,6 @@ public class CustomScrollView extends ScrollView {
                     return PageScrollStatus.NULL;
                 } else if ((initialVelocity < 0 && Math.abs(initialVelocity) > TWO_LEVEL_VEL) || scrollY > getMid()) {
                     return PageScrollStatus.TOP;
-                } else if ((initialVelocity < 0 && Math.abs(initialVelocity) > ONE_LEVEL_VEL) || scrollY > getMid()) {
-                    return PageScrollStatus.TOP;
                 } else {
                     return PageScrollStatus.BOTTOM;
                 }
@@ -203,8 +185,6 @@ public class CustomScrollView extends ScrollView {
                 }
             case NULL:
                 if (initialVelocity > TWO_LEVEL_VEL) {
-                    return PageScrollStatus.TOP;
-                } else if (initialVelocity > ONE_LEVEL_VEL) {
                     return PageScrollStatus.TOP;
                 } else if (scrollY > top) {
                     return PageScrollStatus.TOP;
@@ -316,24 +296,8 @@ public class CustomScrollView extends ScrollView {
         }
     }
 
-    public PageScrollStatus getStatus() {
-        return this.mStatus;
-    }
-
-    public void setOnScrollChangeListener(OnScrollChangeListener listener) {
-        this.mListener = listener;
-    }
-
     public void setCustomOnScrollChangeListener(OnScrollChangeListener listener) {
         this.mCustomListener = listener;
-    }
-
-    public void setContinueScrollListener(OnContinueScrollStatus continueScrollListener) {
-        this.continueScrollListener = continueScrollListener;
-    }
-
-    public void setInnerView(View innerView) {
-        this.innerView = innerView;
     }
 
     public interface OnScrollChangeListener {
@@ -447,9 +411,5 @@ public class CustomScrollView extends ScrollView {
             }
         }
         return null;
-    }
-
-    public void setIsTwoStatus(boolean isTwoStatus) {
-        this.isTwoStatus = isTwoStatus;
     }
 }

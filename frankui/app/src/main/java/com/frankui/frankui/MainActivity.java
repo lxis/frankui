@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         if (params != null) {
             params.height = 2000;
         }
-        scrollView.setIsTwoStatus(true);
         scrollView.setCustomOnScrollChangeListener(new CustomScrollView.OnScrollChangeListener() {
             @Override
             public void onStatusChanged(PageScrollStatus oldSt, PageScrollStatus newSt) {
