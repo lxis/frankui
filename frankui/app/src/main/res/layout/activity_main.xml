@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.frankui.custom.CustomScrollView
-        android:id="@+id/customScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary" />
+    <!--<com.frankui.custom.CustomScrollView-->
+        <!--android:id="@+id/customScrollView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/colorPrimary" />-->
 
     <com.frankui.extend.ExtendScrollView
         android:id="@+id/extendScrollView"

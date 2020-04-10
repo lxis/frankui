@@ -18,12 +18,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CustomScrollView customScrollView = findViewById(R.id.customScrollView);
-        View inner = LayoutInflater.from(this).inflate(R.layout.scroll_view_inner, null);
-        setScrollView(customScrollView, inner);
+//        CustomScrollView customScrollView = findViewById(R.id.customScrollView);
+//        View inner = LayoutInflater.from(this).inflate(R.layout.scroll_view_inner, null);
+//        setScrollView(customScrollView, inner);
 
-//        ExtendScrollView extendScrollView = findViewById(R.id.extendScrollView);
-//        initExtendScrollView(extendScrollView);
+        ExtendScrollView extendScrollView = findViewById(R.id.extendScrollView);
+        initExtendScrollView(extendScrollView);
+
     }
 
     private void initExtendScrollView(ExtendScrollView extendScrollView) {
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         value.mBottom = 500;
         value.mTop = 1000;
         value.mBlankHeight = 1500;
+        StatusSwitchScrollViewHelper.addStatusSwitch(extendScrollView, value);
+
+        extendScrollView.initView();
 
         value.mContentLayout = extendScrollView.findViewById(R.id.ll_content);
         View inner = LayoutInflater.from(this).inflate(R.layout.scroll_view_inner, null);
@@ -41,17 +45,17 @@ public class MainActivity extends AppCompatActivity {
             params.height = 3000;
         }
         value.mContentLayout.addView(inner);
-        StatusSwitchScrollViewHelper.addStatusSwitch(extendScrollView, value);
+
     }
 
-    public void setScrollView(final CustomScrollView scrollView, View innerView) {
-        ViewGroup.LayoutParams params = innerView.getLayoutParams();
-        if (params != null) {
-            params.height = 3000;
-        }
-        int blankHeight = 1500;
-        int bottom = 500;
-        int top = 1000;
-        scrollView.setStatusHeight(top, bottom, blankHeight, innerView);
-    }
+//    public void setScrollView(final CustomScrollView scrollView, View innerView) {
+//        ViewGroup.LayoutParams params = innerView.getLayoutParams();
+//        if (params != null) {
+//            params.height = 3000;
+//        }
+//        int blankHeight = 1500;
+//        int bottom = 500;
+//        int top = 1000;
+//        scrollView.setStatusHeight(top, bottom, blankHeight, innerView);
+//    }
 }

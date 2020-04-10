@@ -33,6 +33,12 @@ public class ExtendScrollView extends ScrollView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    public void initView() {
+        for (Map.Entry<String, ExtendHelper.Callback> entry : mExtendHelper.getCallback().entrySet()) {
+            entry.getValue().initView();
+        }
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return super.dispatchTouchEvent(ev);
@@ -46,7 +52,11 @@ public class ExtendScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        mExtendHelper.onTouchEvent(event);
+        for (Map.Entry<String, ExtendHelper.Callback> entry : mExtendHelper.getCallback().entrySet()) {
+            if (entry.getValue().onTouchEvent(event)) {
+                return true;
+            }
+        }
         return super.onTouchEvent(event);
     }
 

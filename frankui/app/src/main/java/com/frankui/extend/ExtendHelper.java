@@ -5,18 +5,32 @@ import android.view.MotionEvent;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class ExtendHelper {
 
     @NonNull
     private final Map<String, Object> mExtendFields = new HashMap<>();
 
-    public void add(String key, Object params) {
+    public void addValue(String key, Object params) {
         mExtendFields.put(key, params);
     }
 
-    public boolean onTouchEvent(MotionEvent event) {
-        return false;
+    @NonNull
+    private final Map<String, Callback> mCallback = new HashMap<>();
+
+    public interface Callback {
+        boolean onTouchEvent(MotionEvent event);
+
+        void initView();
     }
+
+    public final Map<String, Callback> getCallback() {
+        return mCallback;
+    }
+
+    public void addCallback(String key, Callback callback) {
+        mCallback.put(key, callback);
+    }
+
+
 }
