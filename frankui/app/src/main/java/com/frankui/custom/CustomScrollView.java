@@ -34,13 +34,8 @@ public class CustomScrollView extends ScrollView {
     public int bottom;
     public int top;
 
-    private GestureDetector mYGestureDetector;
-
     private LinearLayout blankLayout;
     public LinearLayout contentLayout;
-
-    // 手势按下时是否在图区范围
-    private boolean isDownOnMap = false;
 
     private PageScrollStatus mStatus = PageScrollStatus.BOTTOM;
 
@@ -88,32 +83,21 @@ public class CustomScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        boolean canMoveMap;
-        if (blankLayout == null) {
-            canMoveMap = false;
-        } else {
-            canMoveMap = canMoveMap(ev, blankLayout);
-        }
-
-        if ((canMoveMap && (mStatus == PageScrollStatus.BOTTOM))) {
-            return false;
-        } else {
-            acquireVelocityTracker(ev);
-            if (ev.getAction() == MotionEvent.ACTION_UP) {
-                final VelocityTracker verTracker = mVelocityTracker;
-                if (verTracker != null) {
-                    verTracker.computeCurrentVelocity(VELOCTITY, mMaxVelocity);
-                    int initialVelocity = (int) verTracker.getYVelocity();
-                    PageScrollStatus status = calculateNextStatusWhenTwo(initialVelocity, getScrollY());
-                    if (status != PageScrollStatus.NULL) {
-                        updateStatus(status, true);
-                        return true;
-                    }
-                    mStatus = status;
+        acquireVelocityTracker(ev);
+        if (ev.getAction() == MotionEvent.ACTION_UP) {
+            final VelocityTracker verTracker = mVelocityTracker;
+            if (verTracker != null) {
+                verTracker.computeCurrentVelocity(VELOCTITY, mMaxVelocity);
+                int initialVelocity = (int) verTracker.getYVelocity();
+                PageScrollStatus status = calculateNextStatusWhenTwo(initialVelocity, getScrollY());
+                if (status != PageScrollStatus.NULL) {
+                    updateStatus(status, true);
+                    return true;
                 }
+                mStatus = status;
             }
-            return super.onTouchEvent(ev);
         }
+        return super.onTouchEvent(ev);
     }
 
     private PageScrollStatus calculateNextStatusWhenTwo(int initialVelocity, int scrollY) {
@@ -157,14 +141,6 @@ public class CustomScrollView extends ScrollView {
         return (top + bottom) / 2;
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mYGestureDetector == null) {
-            mYGestureDetector = new GestureDetector(getContext(), new YScrollDetector());
-        }
-        return super.onInterceptTouchEvent(ev) && mYGestureDetector.onTouchEvent(ev);
-    }
-
     private void acquireVelocityTracker(final MotionEvent event) {
         if (null == mVelocityTracker) {
             mVelocityTracker = VelocityTracker.obtain();
@@ -179,23 +155,6 @@ public class CustomScrollView extends ScrollView {
             mVelocityTracker.recycle();
             mVelocityTracker = null;
         }
-    }
-
-    private boolean canMoveMap(MotionEvent ev, View view) {
-        boolean inside = isPointInsideView(ev.getY(), view);
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            isDownOnMap = inside;
-        }
-        if (ev.getAction() == MotionEvent.ACTION_UP) {
-            isDownOnMap = false;
-        }
-        return isDownOnMap && inside && ev.getAction() != MotionEvent.ACTION_UP;
-    }
-
-    private boolean isPointInsideView(float y, View view) {
-        Rect rect = new Rect();
-        view.getHitRect(rect);
-        return y > rect.top && y < (rect.bottom - getScrollY());
     }
 
     /**
@@ -232,13 +191,6 @@ public class CustomScrollView extends ScrollView {
                 break;
             default:
                 break;
-        }
-    }
-
-    class YScrollDetector extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return Math.abs(distanceY) > Math.abs(distanceX);
         }
     }
 
