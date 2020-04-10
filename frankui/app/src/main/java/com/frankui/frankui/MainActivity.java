@@ -45,11 +45,6 @@ public class MainActivity extends AppCompatActivity {
                     scrollView.getBlankView().setClickable(false);
                 }
             }
-
-            @Override
-            public void onScroll(int scrollY) {
-
-            }
         });
         updateLayout(scrollView);
         innerView.requestLayout();

@@ -34,12 +34,9 @@ public class CustomScrollView extends ScrollView {
     public int bottom;
     public int top;
 
-    private OnScrollChangeListener mListener;
     private OnScrollChangeListener mCustomListener;
 
     private GestureDetector mYGestureDetector;
-    private int viewHeight = 0;
-    protected Field scrollerField;
 
     private LinearLayout blankLayout;
     public LinearLayout contentLayout;
@@ -51,7 +48,6 @@ public class CustomScrollView extends ScrollView {
     public int offsetTrick = 0;
 
     private OnContinueScrollStatus continueScrollListener = null;
-    private View innerView;
 
     public static final Object TAG = new Object();
 
@@ -107,19 +103,15 @@ public class CustomScrollView extends ScrollView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (continueScrollListener != null && innerView != null) {
+        if (continueScrollListener != null) {
             if (continueScrollListener.isContinueScroll(ev)) {
                 if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_DOWN) {
                     onTouchEvent(ev);
                 }
-                return innerView.onTouchEvent(ev);
+                return super.dispatchTouchEvent(ev);
             }
         }
         return super.dispatchTouchEvent(ev);
-    }
-
-    public void setTouchable(boolean touchable) {
-        this.touchable = touchable;
     }
 
     @Override
@@ -144,11 +136,6 @@ public class CustomScrollView extends ScrollView {
                     PageScrollStatus status = calculateNextStatusWhenTwo(initialVelocity, getScrollY());
                     if (status != PageScrollStatus.NULL) {
                         updateStatus(status, true);
-                        if (getScrollY() == 0 && mStatus == PageScrollStatus.BOTTOM) {
-                            if (mListener != null) {
-                                mListener.onScroll(0);
-                            }
-                        }
                         return true;
                     }
                     mStatus = status;
@@ -266,9 +253,6 @@ public class CustomScrollView extends ScrollView {
     public void updateStatus(PageScrollStatus status, boolean smooth) {
         PageScrollStatus oldSt = mStatus;
         this.mStatus = status;
-        if (mListener != null) {
-            mListener.onStatusChanged(oldSt, status);
-        }
         if (mCustomListener != null) {
             mCustomListener.onStatusChanged(oldSt, status);
         }
@@ -298,8 +282,6 @@ public class CustomScrollView extends ScrollView {
 
     public interface OnScrollChangeListener {
         void onStatusChanged(PageScrollStatus oldSt, PageScrollStatus newSt);
-
-        void onScroll(int scrollY);
     }
 
     class YScrollDetector extends GestureDetector.SimpleOnGestureListener {
@@ -323,39 +305,11 @@ public class CustomScrollView extends ScrollView {
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-        if (changed) {
-            viewHeight = b - t;
-        }
-    }
-
-    @Override
     public void requestChildFocus(View child, View focused) {
         if ((focused instanceof WebView
                 || focused instanceof ListView)) {
             return;
         }
         super.requestChildFocus(child, focused);
-    }
-
-    /**
-     * 获取一个对象隐藏的属性，并设置属性为public属性允许直接访问
-     *
-     * @return {@link Field} 如果无法读取，返回null；返回的Field需要使用者自己缓存，本方法不做缓存�?
-     */
-    public static Field getDeclaredField(Object object, String fieldName) {
-        Class<?> cla = object.getClass();
-        Field field = null;
-        for (; cla != Object.class; cla = cla.getSuperclass()) {
-            try {
-                field = cla.getDeclaredField(fieldName);
-                field.setAccessible(true);
-                return field;
-            } catch (Exception e) {
-                // pass
-            }
-        }
-        return null;
     }
 }
