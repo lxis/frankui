@@ -43,17 +43,18 @@ public class CustomScrollView extends ScrollView {
         initView(context);
     }
 
-    public void initView(Context context) {
+    private void initView(Context context) {
         LayoutInflater.from(context).inflate(R.layout.custom_scroll_view, this);
         mContentLayout = findViewById(R.id.ll_content);
         mBlankLayout = findViewById(R.id.ll_blank);
         setVerticalScrollBarEnabled(false); // 隐藏右侧的ScrollBar
     }
 
-    public void setStatusHeight(int top, int bottom, int blankHeight) {
+    public void setStatusHeight(int top, int bottom, int blankHeight, View innerView) {
         mTop = top;
         mBottom = bottom;
         mBlankHeight = blankHeight;
+        addContentView(innerView);
         updateBlankHeight();
     }
 
@@ -69,7 +70,7 @@ public class CustomScrollView extends ScrollView {
         mBlankLayout.requestLayout();
     }
 
-    public void addContentView(View view) {
+    private void addContentView(View view) {
         mContentLayout.addView(view);
     }
 
@@ -104,7 +105,7 @@ public class CustomScrollView extends ScrollView {
      *
      * @param status
      */
-    public void setStatus(PageScrollStatus status) {
+    private void setStatus(PageScrollStatus status) {
         this.mStatus = status;
     }
 
@@ -114,7 +115,7 @@ public class CustomScrollView extends ScrollView {
      * @param status
      * @param smooth
      */
-    public void updateStatus(PageScrollStatus status, boolean smooth) {
+    private void updateStatus(PageScrollStatus status, boolean smooth) {
         this.mStatus = status;
         switch (status) {
             case BOTTOM:

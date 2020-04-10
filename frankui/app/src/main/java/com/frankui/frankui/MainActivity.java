@@ -45,30 +45,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setScrollView(final CustomScrollView scrollView, View innerView) {
-        if (scrollView == null) {
-            return;
-        }
-        scrollView.addContentView(innerView);
         ViewGroup.LayoutParams params = innerView.getLayoutParams();
         if (params != null) {
             params.height = 3000;
         }
-        updateLayout(scrollView);
-    }
-
-    private void updateLayout(final CustomScrollView scrollView) {
-        if (scrollView == null) {
-            return;
-        }
         int blankHeight = 1500;
         int bottom = 500;
         int top = 1000;
-        scrollView.setStatusHeight(top, bottom, blankHeight);
-        scrollView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                scrollView.updateStatus(PageScrollStatus.BOTTOM, false);
-            }
-        }, 1);
+        scrollView.setStatusHeight(top, bottom, blankHeight, innerView);
     }
 }
