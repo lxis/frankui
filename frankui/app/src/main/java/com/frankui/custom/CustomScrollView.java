@@ -73,6 +73,7 @@ public class CustomScrollView extends ScrollView {
         LayoutInflater.from(context).inflate(R.layout.custom_scroll_view, this);
         blankLayout = findViewById(R.id.ll_blank);
         contentLayout = findViewById(R.id.ll_content);
+        mMaxVelocity = ViewConfiguration.get(getContext()).getScaledMaximumFlingVelocity();
     }
 
     public void setStatusHeight(int top, int bottom) {
@@ -95,7 +96,6 @@ public class CustomScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        mMaxVelocity = ViewConfiguration.get(getContext()).getMaximumFlingVelocity();
         boolean canMoveMap;
         if (blankLayout == null) {
             canMoveMap = false;
