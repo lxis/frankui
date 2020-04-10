@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
             params.height = 2000;
         }
         updateLayout(scrollView);
-        innerView.requestLayout();
     }
 
     private void updateLayout(final CustomScrollView scrollView) {
@@ -40,15 +39,8 @@ public class MainActivity extends AppCompatActivity {
         }
         int blankHeight = 1500;
         int bottom = 500;
-        int top = blankHeight - 500;
+        int top = 1000;
         scrollView.setStatusHeight(top, bottom);
         scrollView.setBlankHeight(blankHeight);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                scrollView.updateStatus(PageScrollStatus.BOTTOM, false);
-            }
-        }, 1);
-
     }
 }
