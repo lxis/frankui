@@ -84,10 +84,6 @@ public class CustomScrollView extends ScrollView {
         contentLayout.setMinimumHeight(top);
     }
 
-    public LinearLayout getBlankView() {
-        return blankLayout;
-    }
-
     public void setBlankHeight(int height) {
         blankLayout.getLayoutParams().height = height;
         blankLayout.setLayoutParams(blankLayout.getLayoutParams());
@@ -234,7 +230,6 @@ public class CustomScrollView extends ScrollView {
      * @param smooth
      */
     public void updateStatus(PageScrollStatus status, boolean smooth) {
-        PageScrollStatus oldSt = mStatus;
         this.mStatus = status;
         switch (status) {
             case BOTTOM:
