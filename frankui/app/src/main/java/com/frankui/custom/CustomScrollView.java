@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -53,8 +54,15 @@ public class CustomScrollView extends ScrollView {
     }
 
     public void setBlankHeight(int height) {
-        mBlankLayout.getLayoutParams().height = height;
-        mBlankLayout.setLayoutParams(mBlankLayout.getLayoutParams());
+        if (mBlankLayout == null) {
+            return;
+        }
+        ViewGroup.LayoutParams layoutParams = mBlankLayout.getLayoutParams();
+        if (layoutParams == null) {
+            return;
+        }
+        layoutParams.height = height;
+        mBlankLayout.requestLayout();
     }
 
     public void addContentView(View view) {
