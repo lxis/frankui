@@ -34,8 +34,6 @@ public class CustomScrollView extends ScrollView {
     public int bottom;
     public int top;
 
-    private OnScrollChangeListener mCustomListener;
-
     private GestureDetector mYGestureDetector;
 
     private LinearLayout blankLayout;
@@ -46,8 +44,6 @@ public class CustomScrollView extends ScrollView {
 
     // blank点击区域的offset修正，这是个trick，没事儿别用
     public int offsetTrick = 0;
-
-    private OnContinueScrollStatus continueScrollListener = null;
 
     public static final Object TAG = new Object();
 
@@ -99,19 +95,6 @@ public class CustomScrollView extends ScrollView {
 
     public void addContentView(View view) {
         contentLayout.addView(view);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (continueScrollListener != null) {
-            if (continueScrollListener.isContinueScroll(ev)) {
-                if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_DOWN) {
-                    onTouchEvent(ev);
-                }
-                return super.dispatchTouchEvent(ev);
-            }
-        }
-        return super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -253,9 +236,6 @@ public class CustomScrollView extends ScrollView {
     public void updateStatus(PageScrollStatus status, boolean smooth) {
         PageScrollStatus oldSt = mStatus;
         this.mStatus = status;
-        if (mCustomListener != null) {
-            mCustomListener.onStatusChanged(oldSt, status);
-        }
         switch (status) {
             case BOTTOM:
                 if (smooth) {
@@ -276,23 +256,11 @@ public class CustomScrollView extends ScrollView {
         }
     }
 
-    public void setCustomOnScrollChangeListener(OnScrollChangeListener listener) {
-        this.mCustomListener = listener;
-    }
-
-    public interface OnScrollChangeListener {
-        void onStatusChanged(PageScrollStatus oldSt, PageScrollStatus newSt);
-    }
-
     class YScrollDetector extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             return Math.abs(distanceY) > Math.abs(distanceX);
         }
-    }
-
-    public interface OnContinueScrollStatus {
-        boolean isContinueScroll(MotionEvent ev);
     }
 
     @Override
@@ -302,14 +270,5 @@ public class CustomScrollView extends ScrollView {
             setStatus(PageScrollStatus.NULL);
         }
         super.onScrollChanged(l, t, oldl, oldt);
-    }
-
-    @Override
-    public void requestChildFocus(View child, View focused) {
-        if ((focused instanceof WebView
-                || focused instanceof ListView)) {
-            return;
-        }
-        super.requestChildFocus(child, focused);
     }
 }

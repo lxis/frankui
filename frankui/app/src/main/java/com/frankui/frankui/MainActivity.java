@@ -30,22 +30,6 @@ public class MainActivity extends AppCompatActivity {
         if (params != null) {
             params.height = 2000;
         }
-        scrollView.setCustomOnScrollChangeListener(new CustomScrollView.OnScrollChangeListener() {
-            @Override
-            public void onStatusChanged(PageScrollStatus oldSt, PageScrollStatus newSt) {
-                if (newSt == PageScrollStatus.TOP) {
-                    scrollView.getBlankView().setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            scrollView.updateStatus(PageScrollStatus.BOTTOM, true);
-                        }
-                    });
-                } else {
-                    scrollView.getBlankView().setOnClickListener(null);
-                    scrollView.getBlankView().setClickable(false);
-                }
-            }
-        });
         updateLayout(scrollView);
         innerView.requestLayout();
     }
