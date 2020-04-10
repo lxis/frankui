@@ -30,17 +30,8 @@ public class MainActivity extends AppCompatActivity {
         value.mTop = 1000;
         value.mBlankHeight = 1500;
         value.mContentHeight = 3000;
+        value.mInner = LayoutInflater.from(this).inflate(R.layout.scroll_view_inner, null);
         StatusSwitchScrollViewHelper.addStatusSwitch(extendScrollView, value);
-
         extendScrollView.initView();
-
-        value.mContentLayout = extendScrollView.findViewById(R.id.ll_content);
-        View inner = LayoutInflater.from(this).inflate(R.layout.scroll_view_inner, null);
-        value.mInner = inner;
-        ViewGroup.LayoutParams params = inner.getLayoutParams();
-        if (params != null) {
-            params.height = value.mContentHeight;
-        }
-        value.mContentLayout.addView(inner);
     }
 }

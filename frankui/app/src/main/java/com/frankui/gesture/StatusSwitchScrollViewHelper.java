@@ -38,6 +38,18 @@ public class StatusSwitchScrollViewHelper {
                 scrollView.setVerticalScrollBarEnabled(false); // 隐藏右侧的ScrollBar
                 updateBlankHeight();
 
+
+                ViewGroup.LayoutParams layoutParams = params.mInner.getLayoutParams();
+                if (layoutParams != null) {
+                    layoutParams.height = params.mContentHeight;
+                }
+                params.mInner.requestLayout();
+
+                params.mContentLayout = scrollView.findViewById(R.id.ll_content);
+
+                params.mContentLayout.addView(params.mInner);
+
+
             }
 
             private void updateBlankHeight() {
