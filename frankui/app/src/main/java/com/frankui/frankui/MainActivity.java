@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         scrollView.addContentView(innerView);
         ViewGroup.LayoutParams params = innerView.getLayoutParams();
         if (params != null) {
-            params.height = 2000;
+            params.height = 3000;
         }
         updateLayout(scrollView);
     }
@@ -42,5 +42,11 @@ public class MainActivity extends AppCompatActivity {
         int top = 1000;
         scrollView.setStatusHeight(top, bottom);
         scrollView.setBlankHeight(blankHeight);
+        scrollView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.updateStatus(PageScrollStatus.BOTTOM, false);
+            }
+        }, 1);
     }
 }
