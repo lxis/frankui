@@ -38,7 +38,6 @@ public class CustomScrollView extends ScrollView {
     private OnScrollChangeListener mCustomListener;
 
     private GestureDetector mYGestureDetector;
-    private int scrollHeight = 0;
     private int viewHeight = 0;
     protected Field scrollerField;
 
@@ -206,9 +205,6 @@ public class CustomScrollView extends ScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            stopAnim();
-        }
         if (mYGestureDetector == null) {
             mYGestureDetector = new GestureDetector(getContext(), new YScrollDetector());
         }
@@ -319,61 +315,11 @@ public class CustomScrollView extends ScrollView {
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        boolean stop = false;
-        if (mListener != null) {
-            mListener.onScroll(t);
-        }
-        if (mCustomListener != null) {
-            mCustomListener.onScroll(t);
-        }
+        // lxis：是为了处理当scroll高于top时自动回弹回top
         if (t > top) {
             setStatus(PageScrollStatus.NULL);
         }
-        if (scrollHeight - viewHeight == t) {
-            stop = true;
-        }
-
-        if (t == 0 || stop) {
-            try {
-                if (scrollerField == null) {
-                    scrollerField = getDeclaredField(this, "mScroller");
-                }
-
-                Object ob = scrollerField.get(this);
-                if (!(ob instanceof Scroller)) {
-                    return;
-                }
-                Scroller sc = (Scroller) ob;
-                sc.abortAnimation();
-
-            } catch (Exception e) {
-                // pass
-            }
-        }
         super.onScrollChanged(l, t, oldl, oldt);
-    }
-
-    private void stopAnim() {
-        try {
-            if (scrollerField == null) {
-                scrollerField = getDeclaredField(this, "mScroller");
-            }
-
-            Object ob = scrollerField.get(this);
-            if (ob == null) {
-                return;
-            }
-            Method method = ob.getClass().getMethod("abortAnimation");
-            method.invoke(ob);
-        } catch (Exception e) {
-            // pass
-        }
-    }
-
-    @Override
-    protected int computeVerticalScrollRange() {
-        scrollHeight = super.computeVerticalScrollRange();
-        return scrollHeight;
     }
 
     @Override
