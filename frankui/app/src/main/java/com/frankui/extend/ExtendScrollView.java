@@ -14,7 +14,8 @@ import java.util.Map;
 
 public class ExtendScrollView extends ScrollView {
 
-    private Map<String, Object> mExtendFields = new HashMap<>();
+    @NonNull
+    private final ExtendHelper mExtendHelper = new ExtendHelper();
 
     public ExtendScrollView(@NonNull Context context) {
         super(context);
@@ -45,6 +46,7 @@ public class ExtendScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        mExtendHelper.onTouchEvent(event);
         return super.onTouchEvent(event);
     }
 
@@ -62,4 +64,11 @@ public class ExtendScrollView extends ScrollView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
+
+    @NonNull
+    public final ExtendHelper getExtendHelper() {
+        return mExtendHelper;
+    }
+
+
 }

@@ -20,6 +20,8 @@ public class CustomScrollView extends ScrollView {
     private int mTop;
     // 底部状态
     private int mBottom;
+    // 空白高度
+    private int mBlankHeight;
     // 内容布局，包含顶部空白和下面内容
     private LinearLayout mContentLayout;
     // 内容顶部插入空白控制状态
@@ -48,12 +50,14 @@ public class CustomScrollView extends ScrollView {
         setVerticalScrollBarEnabled(false); // 隐藏右侧的ScrollBar
     }
 
-    public void setStatusHeight(int top, int bottom) {
+    public void setStatusHeight(int top, int bottom, int blankHeight) {
         mTop = top;
         mBottom = bottom;
+        mBlankHeight = blankHeight;
+        updateBlankHeight();
     }
 
-    public void setBlankHeight(int height) {
+    private void updateBlankHeight() {
         if (mBlankLayout == null) {
             return;
         }
@@ -61,7 +65,7 @@ public class CustomScrollView extends ScrollView {
         if (layoutParams == null) {
             return;
         }
-        layoutParams.height = height;
+        layoutParams.height = mBlankHeight;
         mBlankLayout.requestLayout();
     }
 

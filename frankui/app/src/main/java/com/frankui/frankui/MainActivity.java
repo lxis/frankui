@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.frankui.custom.CustomScrollView;
 import com.frankui.custom.PageScrollStatus;
+import com.frankui.extend.ExtendScrollView;
+import com.frankui.gesture.StatusSwitchScrollViewHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +21,27 @@ public class MainActivity extends AppCompatActivity {
         CustomScrollView customScrollView = findViewById(R.id.customScrollView);
         View inner = LayoutInflater.from(this).inflate(R.layout.scroll_view_inner, null);
         setScrollView(customScrollView, inner);
+
+//        ExtendScrollView extendScrollView = findViewById(R.id.extendScrollView);
+//        initExtendScrollView(extendScrollView);
+    }
+
+    private void initExtendScrollView(ExtendScrollView extendScrollView) {
+        StatusSwitchScrollViewHelper.Value value = new StatusSwitchScrollViewHelper.Value();
+        value.mStatus = PageScrollStatus.BOTTOM;
+        value.mBottom = 500;
+        value.mTop = 1000;
+        value.mBlankHeight = 1500;
+
+        value.mContentLayout = extendScrollView.findViewById(R.id.ll_content);
+        View inner = LayoutInflater.from(this).inflate(R.layout.scroll_view_inner, null);
+        value.mInner = inner;
+        ViewGroup.LayoutParams params = inner.getLayoutParams();
+        if (params != null) {
+            params.height = 3000;
+        }
+        value.mContentLayout.addView(inner);
+        StatusSwitchScrollViewHelper.addStatusSwitch(extendScrollView, value);
     }
 
     public void setScrollView(final CustomScrollView scrollView, View innerView) {
@@ -40,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
         int blankHeight = 1500;
         int bottom = 500;
         int top = 1000;
-        scrollView.setStatusHeight(top, bottom);
-        scrollView.setBlankHeight(blankHeight);
+        scrollView.setStatusHeight(top, bottom, blankHeight);
         scrollView.postDelayed(new Runnable() {
             @Override
             public void run() {
