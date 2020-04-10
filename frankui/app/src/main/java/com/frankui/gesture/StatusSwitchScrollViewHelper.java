@@ -108,5 +108,6 @@ public class StatusSwitchScrollViewHelper {
         public PageScrollStatus mStatus = PageScrollStatus.BOTTOM;
         public View mInner;
         public int mBlankHeight;
+        public int mContentHeight;
     }
 }
