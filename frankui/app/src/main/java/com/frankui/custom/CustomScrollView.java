@@ -120,11 +120,7 @@ public class CustomScrollView extends ScrollView {
                     mStatus = status;
                 }
             }
-            try {
-                return super.onTouchEvent(ev);
-            } catch (Exception e) {
-                return false;
-            }
+            return super.onTouchEvent(ev);
         }
     }
 
@@ -174,11 +170,7 @@ public class CustomScrollView extends ScrollView {
         if (mYGestureDetector == null) {
             mYGestureDetector = new GestureDetector(getContext(), new YScrollDetector());
         }
-        try {
-            return super.onInterceptTouchEvent(ev) && mYGestureDetector.onTouchEvent(ev);
-        } catch (Exception e) {
-            return false;
-        }
+        return super.onInterceptTouchEvent(ev) && mYGestureDetector.onTouchEvent(ev);
     }
 
     private void acquireVelocityTracker(final MotionEvent event) {
