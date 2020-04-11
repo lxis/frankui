@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FrankLayout">
+        <attr name="layout_name" format="string" />
+    </declare-styleable>
+    <declare-styleable name="View">
+        <attr name="frank_index" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="Linear">
+        <attr name="order" format="enum">
+            <enum name="start" value="0" />
+            <enum name="end" value="1" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="Cell">
+        <attr name="index" format="integer" />
+    </declare-styleable>
+</resources>
