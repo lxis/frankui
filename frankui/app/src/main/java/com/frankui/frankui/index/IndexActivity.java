@@ -17,36 +17,40 @@ public class IndexActivity extends AppCompatActivity {
     private IndexAdapter mAdapter = new IndexAdapter(this, new IListListener() {
         @Override
         public void click(IndexData data) {
+            Class<?> clz = data.getClz();
+            if (clz != null) {
+                Intent intent = new Intent(IndexActivity.this, clz);
+                startActivity(intent);
+                return;
+            }
             List<IndexData> list = mModel.getList(data);
             if (list != null) {
                 mAdapter.setDataList(list);
                 mAdapter.notifyDataSetChanged();
-            } else {
-                Class<?> clz = mModel.getClz(data);
-                if (clz != null) {
-                    Intent intent = new Intent(IndexActivity.this, clz);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(IndexActivity.this, "没有对应页面", Toast.LENGTH_LONG).show();
-                }
+                return;
             }
+            Toast.makeText(IndexActivity.this, "没有对应页面", Toast.LENGTH_LONG).show();
 
         }
     });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        try {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.index_activity);
-//
         ListView listView = findViewById(R.id.list);
+        listView.setAdapter(mAdapter);
+        refreshIndex();
+    }
+
+    private void refreshIndex() {
         List<IndexData> data = mModel.getList(null);
         mAdapter.setDataList(data);
-        listView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-//        } catch (Throwable e) {
-//            e.printStackTrace();
-//        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        refreshIndex();
     }
 }

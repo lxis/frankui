@@ -12,8 +12,6 @@ public class IndexModel {
     private List<IndexData> mIndex;
     private HashMap<String, List<IndexData>> mMap = new HashMap<>();
 
-    private HashMap<String, Class<?>> mClassMap = new HashMap<>();
-
     public IndexModel() {
         init();
     }
@@ -26,29 +24,25 @@ public class IndexModel {
         mIndex.add(new IndexData("手势冲突"));
 
         List<IndexData> extend = new ArrayList<>();
-        extend.add(new IndexData("返回"));
         extend.add(new IndexData("扩展控件1"));
         extend.add(new IndexData("扩展控件2"));
         extend.add(new IndexData("扩展控件3"));
         extend.add(new IndexData("扩展控件4"));
         extend.add(new IndexData("扩展控件5"));
         List<IndexData> layout = new ArrayList<>();
-        layout.add(new IndexData("返回"));
         layout.add(new IndexData("布局1"));
         layout.add(new IndexData("布局件2"));
         layout.add(new IndexData("布局3"));
         layout.add(new IndexData("布局4"));
         layout.add(new IndexData("布局5"));
         List<IndexData> animation = new ArrayList<>();
-        animation.add(new IndexData("返回"));
         animation.add(new IndexData("动画1"));
         animation.add(new IndexData("动画2"));
         animation.add(new IndexData("动画3"));
         animation.add(new IndexData("动画4"));
         animation.add(new IndexData("动画5"));
         List<IndexData> gesture = new ArrayList<>();
-        gesture.add(new IndexData("返回"));
-        gesture.add(new IndexData("手势冲突1"));
+        gesture.add(new IndexData("手势冲突1", Gesture1Activity.class));
         gesture.add(new IndexData("手势冲突2"));
         gesture.add(new IndexData("手势冲突3"));
         gesture.add(new IndexData("手势冲突4"));
@@ -58,8 +52,6 @@ public class IndexModel {
         mMap.put("布局", layout);
         mMap.put("动画", animation);
         mMap.put("手势冲突", gesture);
-
-        mClassMap.put("手势冲突1", Gesture1Activity.class);
     }
 
     public List<IndexData> getList(IndexData data) {
@@ -72,9 +64,4 @@ public class IndexModel {
             return mMap.get(data.getText());
         }
     }
-
-    public Class<?> getClz(IndexData data) {
-        return mClassMap.get(data.getText());
-    }
-
 }
