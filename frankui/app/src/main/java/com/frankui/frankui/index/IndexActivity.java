@@ -2,21 +2,12 @@ package com.frankui.frankui.index;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.frankui.custom.PageScrollStatus;
-import com.frankui.extend.ExtendScrollView;
-import com.frankui.frankui.MainActivity;
 import com.frankui.frankui.R;
-import com.frankui.gesture.StatusSwitchScrollViewHelper;
-import com.frankui.utils.SafeObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IndexActivity extends AppCompatActivity {

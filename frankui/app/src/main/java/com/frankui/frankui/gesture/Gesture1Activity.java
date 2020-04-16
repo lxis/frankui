@@ -1,4 +1,4 @@
-package com.frankui.frankui;
+package com.frankui.frankui.gesture;
 
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +10,10 @@ import android.view.ViewGroup;
 import com.frankui.custom.CustomScrollView;
 import com.frankui.custom.PageScrollStatus;
 import com.frankui.extend.ExtendScrollView;
+import com.frankui.frankui.R;
 import com.frankui.gesture.StatusSwitchScrollViewHelper;
 
-public class MainActivity extends AppCompatActivity {
+public class Gesture1Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,6 @@
 package com.frankui.frankui.index;
 
-import com.frankui.frankui.MainActivity;
+import com.frankui.frankui.gesture.Gesture1Activity;
 import com.frankui.utils.SafeObject;
 
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class IndexModel {
         mMap.put("动画", animation);
         mMap.put("手势冲突", gesture);
 
-        mClassMap.put("手势冲突1", MainActivity.class);
+        mClassMap.put("手势冲突1", Gesture1Activity.class);
     }
 
     public List<IndexData> getList(IndexData data) {
