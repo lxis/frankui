@@ -18,10 +18,10 @@ public class IndexModel {
 
     private void init() {
         mIndex = new ArrayList<>();
-        mIndex.add(new IndexData("扩展控件"));
-        mIndex.add(new IndexData("布局"));
-        mIndex.add(new IndexData("动画"));
-        mIndex.add(new IndexData("手势冲突"));
+        mIndex.add(new IndexData("扩展控件", true));
+        mIndex.add(new IndexData("布局", true));
+        mIndex.add(new IndexData("动画", true));
+        mIndex.add(new IndexData("手势冲突", true));
 
         List<IndexData> extend = new ArrayList<>();
         extend.add(new IndexData("扩展控件1"));
@@ -31,7 +31,7 @@ public class IndexModel {
         extend.add(new IndexData("扩展控件5"));
         List<IndexData> layout = new ArrayList<>();
         layout.add(new IndexData("布局1"));
-        layout.add(new IndexData("布局件2"));
+        layout.add(new IndexData("布局2"));
         layout.add(new IndexData("布局3"));
         layout.add(new IndexData("布局4"));
         layout.add(new IndexData("布局5"));

@@ -69,6 +69,13 @@ public class IndexAdapter extends BaseAdapter {
 
         if (data != null) {
             viewHolder.text.setText(data.getText());
+            if (data.getClz() != null) {
+                viewHolder.text.setTextColor(mContext.getColor(R.color.colorPrimary));
+            } else if (data.isIndex()) {
+                viewHolder.text.setTextColor(mContext.getColor(R.color.black));
+            } else {
+                viewHolder.text.setTextColor(mContext.getColor(R.color.grey));
+            }
         }
 
         return view;
