@@ -1,5 +1,6 @@
 package com.frankui.gesture;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.frankui.custom.PageScrollStatus;
 import com.frankui.extend.ExtendHelper;
 import com.frankui.extend.ExtendScrollView;
 import com.frankui.frankui.R;
+import com.frankui.utils.TypeUtils;
 
 public class StatusSwitchScrollViewHelper {
 
@@ -19,13 +21,14 @@ public class StatusSwitchScrollViewHelper {
             return;
         }
         String key = "statusSwitch";
-        view.getExtendHelper().addValue(key, value);
-        view.getExtendHelper().addCallback(key, new ExtendHelper.Callback() {
+        view.getExtendHelper().setProperty(key, value);
+        view.getExtendHelper().getTouchEventCallbacks().put(key, new ExtendHelper.TouchEventCallback<ExtendScrollView>() {
             @Override
-            public boolean onTouchEvent(MotionEvent ev) {
+            public boolean run(@NonNull ExtendScrollView view, Object value, MotionEvent ev) {
+                Value currentValue = TypeUtils.safeCast(value, Value.class);
                 if (ev.getAction() == MotionEvent.ACTION_UP) {
                     PageScrollStatus status = calculateNextStatus(view.getScrollY());
-                    value.mStatus = status;
+                    currentValue.mStatus = status;
                     if (status != PageScrollStatus.NULL) {
                         updateStatus(status, true);
                         return true;
@@ -34,41 +37,18 @@ public class StatusSwitchScrollViewHelper {
                 return false;
             }
 
-            @Override
-            public void initView() {
-                LayoutInflater.from(view.getContext()).inflate(R.layout.custom_scroll_view, view);
-                value.mContentLayout = view.findViewById(R.id.ll_content);
-                value.mBlankLayout = view.findViewById(R.id.ll_blank);
-                view.setVerticalScrollBarEnabled(false); // 隐藏右侧的ScrollBar
-                updateBlankHeight();
-                updateContentHeight();
-                value.mContentLayout = view.findViewById(R.id.ll_content);
-                value.mContentLayout.addView(value.mInner);
+            private PageScrollStatus calculateNextStatus(int scrollY) {
+                if (scrollY > getMid()) {
+                    return PageScrollStatus.TOP;
+                } else {
+                    return PageScrollStatus.BOTTOM;
+                }
             }
 
-            private void updateContentHeight() {
-                if (value.mInner == null) {
-                    return;
-                }
-                ViewGroup.LayoutParams layoutParams = value.mInner.getLayoutParams();
-                if (layoutParams == null) {
-                    return;
-                }
-                layoutParams.height = value.mContentHeight;
-                value.mInner.requestLayout();
+            private int getMid() {
+                return (value.mTop + value.mBottom) / 2;
             }
 
-            private void updateBlankHeight() {
-                if (value.mBlankLayout == null) {
-                    return;
-                }
-                ViewGroup.LayoutParams layoutParams = value.mBlankLayout.getLayoutParams();
-                if (layoutParams == null) {
-                    return;
-                }
-                layoutParams.height = value.mBlankHeight;
-                value.mBlankLayout.requestLayout();
-            }
 
             /**
              * 状态切换
@@ -97,18 +77,44 @@ public class StatusSwitchScrollViewHelper {
                         break;
                 }
             }
-
-            private PageScrollStatus calculateNextStatus(int scrollY) {
-                if (scrollY > getMid()) {
-                    return PageScrollStatus.TOP;
-                } else {
-                    return PageScrollStatus.BOTTOM;
-                }
+        });
+        view.getExtendHelper().getInitViewCallbacks().put(key, new ExtendHelper.InitViewCallback<ExtendScrollView>() {
+            @Override
+            public void run(@NonNull ExtendScrollView view, Object value) {
+                Value currentValue = TypeUtils.safeCast(value, Value.class);
+                LayoutInflater.from(view.getContext()).inflate(R.layout.custom_scroll_view, view);
+                currentValue.mContentLayout = view.findViewById(R.id.ll_content);
+                currentValue.mBlankLayout = view.findViewById(R.id.ll_blank);
+                view.setVerticalScrollBarEnabled(false); // 隐藏右侧的ScrollBar
+                updateBlankHeight();
+                updateContentHeight();
+                currentValue.mContentLayout = view.findViewById(R.id.ll_content);
+                currentValue.mContentLayout.addView(currentValue.mInner);
             }
 
 
-            private int getMid() {
-                return (value.mTop + value.mBottom) / 2;
+            private void updateContentHeight() {
+                if (value.mInner == null) {
+                    return;
+                }
+                ViewGroup.LayoutParams layoutParams = value.mInner.getLayoutParams();
+                if (layoutParams == null) {
+                    return;
+                }
+                layoutParams.height = value.mContentHeight;
+                value.mInner.requestLayout();
+            }
+
+            private void updateBlankHeight() {
+                if (value.mBlankLayout == null) {
+                    return;
+                }
+                ViewGroup.LayoutParams layoutParams = value.mBlankLayout.getLayoutParams();
+                if (layoutParams == null) {
+                    return;
+                }
+                layoutParams.height = value.mBlankHeight;
+                value.mBlankLayout.requestLayout();
             }
         });
     }

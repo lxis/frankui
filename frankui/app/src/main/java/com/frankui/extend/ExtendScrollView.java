@@ -15,7 +15,7 @@ import java.util.Map;
 public class ExtendScrollView extends ScrollView {
 
     @NonNull
-    private final ExtendHelper mExtendHelper = new ExtendHelper();
+    private final ExtendHelper<ExtendScrollView> mExtendHelper = new ExtendHelper<ExtendScrollView>(this);
 
     public ExtendScrollView(@NonNull Context context) {
         super(context);
@@ -34,9 +34,7 @@ public class ExtendScrollView extends ScrollView {
     }
 
     public void initView() {
-        for (Map.Entry<String, ExtendHelper.Callback> entry : mExtendHelper.getCallback().entrySet()) {
-            entry.getValue().initView();
-        }
+        mExtendHelper.initView();
     }
 
     @Override
@@ -52,10 +50,8 @@ public class ExtendScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        for (Map.Entry<String, ExtendHelper.Callback> entry : mExtendHelper.getCallback().entrySet()) {
-            if (entry.getValue().onTouchEvent(event)) {
-                return true;
-            }
+        if (mExtendHelper.onTouchEvent(event)) {
+            return true;
         }
         return super.onTouchEvent(event);
     }
@@ -76,7 +72,7 @@ public class ExtendScrollView extends ScrollView {
     }
 
     @NonNull
-    public final ExtendHelper getExtendHelper() {
+    public final ExtendHelper<ExtendScrollView> getExtendHelper() {
         return mExtendHelper;
     }
 
