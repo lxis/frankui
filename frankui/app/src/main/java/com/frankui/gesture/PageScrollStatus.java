@@ -1,4 +1,4 @@
-package com.frankui.custom;
+package com.frankui.gesture;
 
 public enum PageScrollStatus {
     BOTTOM(0),

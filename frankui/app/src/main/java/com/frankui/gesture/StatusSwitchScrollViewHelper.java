@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.frankui.custom.PageScrollStatus;
 import com.frankui.extend.ExtendHelper;
 import com.frankui.extend.ExtendScrollView;
 import com.frankui.frankui.R;
