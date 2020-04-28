@@ -12,7 +12,7 @@ import android.widget.ScrollView;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExtendScrollView extends ScrollView {
+public class ExtendScrollView extends ScrollView implements IExtendable<ExtendScrollView> {
 
     @NonNull
     private final ExtendHelper<ExtendScrollView> mExtendHelper = new ExtendHelper<ExtendScrollView>(this);
@@ -71,6 +71,7 @@ public class ExtendScrollView extends ScrollView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    @Override
     @NonNull
     public final ExtendHelper<ExtendScrollView> getExtendHelper() {
         return mExtendHelper;

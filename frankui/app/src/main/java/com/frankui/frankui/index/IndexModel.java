@@ -1,6 +1,7 @@
 package com.frankui.frankui.index;
 
 import com.frankui.frankui.gesture.Gesture1Activity;
+import com.frankui.frankui.widget.Widget1Activity;
 import com.frankui.utils.SafeObject;
 
 import java.util.ArrayList;
@@ -23,12 +24,12 @@ public class IndexModel {
         mIndex.add(new IndexData("动画", true));
         mIndex.add(new IndexData("手势冲突", true));
 
-        List<IndexData> extend = new ArrayList<>();
-        extend.add(new IndexData("扩展控件1"));
-        extend.add(new IndexData("扩展控件2"));
-        extend.add(new IndexData("扩展控件3"));
-        extend.add(new IndexData("扩展控件4"));
-        extend.add(new IndexData("扩展控件5"));
+        List<IndexData> widget = new ArrayList<>();
+        widget.add(new IndexData("图片ScaleType扩展", Widget1Activity.class));
+        widget.add(new IndexData("扩展控件2"));
+        widget.add(new IndexData("扩展控件3"));
+        widget.add(new IndexData("扩展控件4"));
+        widget.add(new IndexData("扩展控件5"));
         List<IndexData> layout = new ArrayList<>();
         layout.add(new IndexData("布局1"));
         layout.add(new IndexData("布局2"));
@@ -48,7 +49,7 @@ public class IndexModel {
         gesture.add(new IndexData("手势冲突4"));
         gesture.add(new IndexData("手势冲突5"));
 
-        mMap.put("扩展控件", extend);
+        mMap.put("扩展控件", widget);
         mMap.put("布局", layout);
         mMap.put("动画", animation);
         mMap.put("手势冲突", gesture);
